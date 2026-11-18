@@ -1,26 +1,22 @@
-# Warhammer 40,000 | Beginner's Guide (Endterm Project)
+# Warhammer 40,000 | Beginner's Guide (Final Web Application)
 
 ## Project Description
-This repository contains the Endterm Project for the Web Frontend course, extending the Midterm multi-page responsive website dedicated to the Warhammer 40,000 universe. The project preserves the semantic HTML5, custom CSS, Flexbox, CSS Grid, and Bootstrap 5 foundation while integrating interactive JavaScript, DOM manipulation, custom form validation, and jQuery effects.
+This repository contains the Final Project for the Web Frontend course. It evolves the previous midterm and endterm websites into a complete client-side web application dedicated to the Warhammer 40,000 universe.
 
-## Group Members
-* **Student Name:** Bekeshev Askhat
+## Final Stage Features
+The project satisfies all final requirements by extending functionality without breaking previous features:
+1. **API Integration (Async/Await & Fetch):** Connects to the public OpenLibrary API on the `lore.html` page to search real Warhammer books, handling loading, success, empty, and error states dynamically.
+2. **Object-Oriented Programming (OOP):** Implements `ArmyUnit` and `RosterManager` classes on `tabletop.html` to encapsulate application logic, instantiate multiple objects, and avoid code duplication.
+3. **Local Storage Persistence:** The Roster Builder saves user armies as JSON strings in `localStorage`, safely restoring them upon page reload.
+4. **Complete CRUD Functionality (Additional Feature 1):** Users can Create, Read, Update, and Delete army units in the Roster Builder on the `tabletop.html` page.
+5. **Advanced Search & Sorting (Additional Feature 2):** Users can search specific queries in the Black Library API and sort the retrieved data dynamically by publication year (Newest/Oldest).
 
-## New Endterm Interactive Features
-1. **Global Theme Switcher (All Pages):** Allows users to toggle between the default Grimdark Mode and Light Mode, saving the preference in `localStorage`.
-2. **Interactive Lore Tabs (`index.html`):** Dynamically updates faction descriptions, key units, and status badges without reloading the page.
-3. **jQuery Lightbox & Collapsible Tactical Intel (`tabletop.html`):** Uses jQuery selectors, DOM traversal (`closest()`, `find()`, `siblings()`), and effects (`slideToggle()`, `slideUp()`, `fadeIn()`, `fadeOut()`, `animate()`) to preview faction artwork and reveal army stats.
-4. **Personal Reading List / Favorites (`lore.html`):** Allows users to bookmark novels directly from the reading order table or add custom titles, mark books as read, and remove items dynamically from the DOM.
-5. **Dynamic Games Rendering, Live Search & Genre Filter (`games.html`):** Renders video game cards from an array of objects using JavaScript loops and filters them in real time via `input` and `change` events.
-6. **Custom JavaScript Form Validation (`contact.html`):** Validates required fields, minimum text length, email format via Regular Expression, numeric age range (14–120), and dropdown selection using `event.preventDefault()`, displaying field-specific error messages and a personalized confirmation banner.
-
-## Instructions for Testing Interactive Functions
-1. **Theme Switcher:** Click the **Light Mode / Dark Mode** button in the top navigation bar on any page.
-2. **Interactive Tabs:** On `index.html`, scroll down to "Pillars of the 41st Millennium" and click the faction buttons to switch content.
-3. **jQuery Effects & Traversal:** On `tabletop.html`, click **Show Tactical Intel** beneath any faction to slide down its tabletop details (automatically sliding up sibling panels). Click on any faction image to trigger the animated Lightbox modal.
-4. **Reading List (DOM Add/Remove):** On `lore.html`, click **+ Add to List** in the table or type a novel name in the input box and click **Add Novel**. Use **Read** to cross out completed books or **Remove** to delete them.
-5. **Search & Filtering:** On `games.html`, type keywords into the search bar or choose a category from the genre dropdown to filter the dynamically generated game cards.
-6. **Form Validation:** On `contact.html`, click **SEND TRANSMISSION** with empty or invalid fields to test field-specific error messages, then fill in valid details to view the confirmation message.
+## Setup & Testing Instructions
+1. Clone this repository or open the provided GitHub Pages link.
+2. Open `index.html` in a web browser.
+3. Test the **CRUD & OOP** features by navigating to the **Tabletop** page and adding/editing units in the Army Roster Builder.
+4. Test the **API & Sorting** features by navigating to the **Lore & Books** page and searching for titles (e.g., "Eisenhorn").
 
 ## Live Demo
-Published Website Link: https://solomondemeter07.github.io/WEB_Endterm/
+**Published Website Link:** https://solomondemeter07.github.io/WEB_Final/
+**Repository Link:** https://github.com/SolomonDemeter07/WEB_Final

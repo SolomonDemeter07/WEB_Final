@@ -128,6 +128,28 @@
                 <ul id="readingListContainer" class="list-group"></ul>
             </div>
         </section>
+
+        <section class="mt-5 mb-5 p-4" style="background-color: #1a1a1a; border: 1px solid #ffc107; border-radius: 10px;">
+            <h2 class="text-warning text-center mb-4">Black Library API Archives</h2>
+            <div class="row g-3 mb-4">
+                <div class="col-md-6">
+                    <input type="text" id="apiSearchQuery" class="form-control custom-input" placeholder="Search WH40K books (e.g., Eisenhorn)...">
+                </div>
+                <div class="col-md-4">
+                    <select id="apiSortSelect" class="form-select custom-input">
+                        <option value="newest">Sort by: Newest First</option>
+                        <option value="oldest">Sort by: Oldest First</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <button id="fetchBooksBtn" class="btn btn-warning w-100">Search</button>
+                </div>
+            </div>
+            
+            <div id="apiStatusMessage" class="text-center text-white fs-5 mb-3"></div>
+            
+            <div id="apiResultsGrid" class="row g-4"></div>
+        </section>
     </main>
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>

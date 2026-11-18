@@ -220,6 +220,8 @@ function addNovelToReadingList(bookTitle) {
     }
 }
 
+
+
 document.addEventListener("DOMContentLoaded", function () {
     const themeToggleBtn = document.getElementById("themeToggleBtn");
     const savedTheme = localStorage.getItem("wh40k_theme");
@@ -391,6 +393,10 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
+
+
+
+
 $(document).ready(function () {
     $(".toggle-intel-btn").on("click", function () {
         const currentWrapper = $(this).closest(".faction-card-wrapper");
@@ -422,3 +428,184 @@ $(document).ready(function () {
         }
     });
 });
+
+
+
+
+
+class ArmyUnit {
+    constructor(id, name, role, points) {
+        this.id = id;
+        this.name = name;
+        this.role = role;
+        this.points = points;
+    }
+}
+
+class RosterManager {
+    constructor() {
+        this.units = JSON.parse(localStorage.getItem('wh40k_roster')) || [];
+        this.tableBody = document.getElementById('rosterTableBody');
+        this.totalEl = document.getElementById('totalPoints');
+        this.form = document.getElementById('rosterForm');
+        
+        if (this.tableBody && this.form) {
+            this.render();
+            this.form.addEventListener('submit', (e) => this.handleFormSubmit(e));
+        }
+    }
+
+    handleFormSubmit(e) {
+        e.preventDefault();
+        const idInput = document.getElementById('unitId').value;
+        const name = document.getElementById('unitName').value.trim();
+        const role = document.getElementById('unitRole').value;
+        const points = parseInt(document.getElementById('unitPoints').value, 10);
+
+        if (idInput) {
+            this.updateUnit(idInput, name, role, points);
+        } else {
+            this.addUnit(name, role, points);
+        }
+
+        this.form.reset();
+        document.getElementById('unitId').value = '';
+        document.getElementById('saveUnitBtn').textContent = 'Add Unit';
+    }
+
+    addUnit(name, role, points) {
+        const newUnit = new ArmyUnit(Date.now().toString(), name, role, points);
+        this.units.push(newUnit);
+        this.saveAndRender();
+    }
+
+    deleteUnit(id) {
+        this.units = this.units.filter(u => u.id !== id);
+        this.saveAndRender();
+    }
+
+    editUnit(id) {
+        const unit = this.units.find(u => u.id === id);
+        if (unit) {
+            document.getElementById('unitId').value = unit.id;
+            document.getElementById('unitName').value = unit.name;
+            document.getElementById('unitRole').value = unit.role;
+            document.getElementById('unitPoints').value = unit.points;
+            document.getElementById('saveUnitBtn').textContent = 'Update Unit';
+        }
+    }
+
+    updateUnit(id, name, role, points) {
+        const unit = this.units.find(u => u.id === id);
+        if (unit) {
+            unit.name = name;
+            unit.role = role;
+            unit.points = points;
+            this.saveAndRender();
+        }
+    }
+
+    saveAndRender() {
+        localStorage.setItem('wh40k_roster', JSON.stringify(this.units));
+        this.render();
+    }
+
+    render() {
+        this.tableBody.innerHTML = '';
+        let total = 0;
+
+        this.units.forEach(unit => {
+            total += unit.points;
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${unit.name}</td>
+                <td><span class="badge bg-secondary">${unit.role}</span></td>
+                <td>${unit.points}</td>
+                <td>
+                    <button class="btn btn-sm btn-outline-info edit-btn" data-id="${unit.id}">Edit</button>
+                    <button class="btn btn-sm btn-outline-danger del-btn" data-id="${unit.id}">Delete</button>
+                </td>
+            `;
+            this.tableBody.appendChild(tr);
+        });
+
+        this.totalEl.textContent = total;
+
+        document.querySelectorAll('.del-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => this.deleteUnit(e.target.dataset.id));
+        });
+        document.querySelectorAll('.edit-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => this.editUnit(e.target.dataset.id));
+        });
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    new RosterManager();
+});
+
+
+const fetchBooksBtn = document.getElementById('fetchBooksBtn');
+const apiStatusMessage = document.getElementById('apiStatusMessage');
+const apiResultsGrid = document.getElementById('apiResultsGrid');
+const apiSearchQuery = document.getElementById('apiSearchQuery');
+const apiSortSelect = document.getElementById('apiSortSelect');
+
+let fetchedBooks = [];
+
+if (fetchBooksBtn && apiStatusMessage && apiResultsGrid) {
+    fetchBooksBtn.addEventListener('click', async () => {
+        const query = apiSearchQuery.value.trim() || 'warhammer 40000';
+        apiStatusMessage.textContent = 'Astropathic choir is searching... (Loading)';
+        apiResultsGrid.innerHTML = '';
+
+        try {
+            const response = await fetch(`https://openlibrary.org/search.json?q=${encodeURIComponent(query)}&limit=12`);
+            if (!response.ok) throw new Error('Network response failed');
+            
+            const data = await response.json();
+            
+            if (data.docs.length === 0) {
+                apiStatusMessage.textContent = 'No records found in the Administratum archives.';
+                return;
+            }
+
+            fetchedBooks = data.docs.filter(book => book.title && book.first_publish_year);
+            apiStatusMessage.textContent = '';
+            renderApiBooks();
+
+        } catch (error) {
+            apiStatusMessage.textContent = 'Error establishing Vox link. Please try again later.';
+        }
+    });
+
+    apiSortSelect.addEventListener('change', renderApiBooks);
+}
+
+function renderApiBooks() {
+    if (fetchedBooks.length === 0) return;
+    
+    apiResultsGrid.innerHTML = '';
+    const sortValue = apiSortSelect.value;
+
+    const sortedBooks = [...fetchedBooks].sort((a, b) => {
+        if (sortValue === 'newest') return b.first_publish_year - a.first_publish_year;
+        return a.first_publish_year - b.first_publish_year;
+    });
+
+    sortedBooks.forEach(book => {
+        const col = document.createElement('div');
+        col.className = 'col-md-4 col-sm-6';
+        
+        const author = book.author_name ? book.author_name[0] : 'Unknown Adept';
+        
+        col.innerHTML = `
+            <div class="api-book-card">
+                <h5>${book.title}</h5>
+                <p><strong>Author:</strong> ${author}</p>
+                <p><strong>First Published:</strong> ${book.first_publish_year}</p>
+            </div>
+        `;
+        apiResultsGrid.appendChild(col);
+    });
+}
