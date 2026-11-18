@@ -76,43 +76,7 @@
             </div>
         </section>
 
-        <section class="mt-5 mb-5 p-4" style="background-color: #1a1a1a; border: 1px solid #ffc107; border-radius: 10px;">
-            <h2 class="text-warning text-center mb-4">Army Roster Builder (CRUD)</h2>
-            <form id="rosterForm" class="row g-3 mb-4">
-                <input type="hidden" id="unitId">
-                <div class="col-md-4">
-                    <input type="text" id="unitName" class="form-control custom-input" placeholder="Unit Name" required>
-                </div>
-                <div class="col-md-4">
-                    <select id="unitRole" class="form-select custom-input" required>
-                        <option value="HQ">HQ</option>
-                        <option value="Troops">Troops</option>
-                        <option value="Elites">Elites</option>
-                        <option value="Heavy Support">Heavy Support</option>
-                    </select>
-                </div>
-                <div class="col-md-2">
-                    <input type="number" id="unitPoints" class="form-control custom-input" placeholder="Points" required>
-                </div>
-                <div class="col-md-2">
-                    <button type="submit" class="btn btn-warning w-100" id="saveUnitBtn">Add Unit</button>
-                </div>
-            </form>
-            <div class="table-responsive">
-                <table class="table table-dark table-hover custom-table text-center">
-                    <thead>
-                        <tr>
-                            <th>Unit Name</th>
-                            <th>Role</th>
-                            <th>Points</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="rosterTableBody"></tbody>
-                </table>
-            </div>
-            <h4 class="text-white text-end mt-3">Total Points: <span id="totalPoints" class="text-warning">0</span></h4>
-        </section>
+        
     </main>
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
